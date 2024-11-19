@@ -9,6 +9,7 @@ public class SpawnManager : MonoBehaviour
     public int enemiesSpawned;
     public int wave;
     public List<int> waveSizes = new List<int>();
+    public GameObject powerUp;
     // Start is called before the first frame update
     void Start()
     {
@@ -21,6 +22,9 @@ public class SpawnManager : MonoBehaviour
     }
     public void SpawnWave(){
         wave++;
+        if(Random.Range(1,5) == 1){
+            Instantiate(powerUp, new Vector3(Random.Range(-10f, 10f), 3, Random.Range(-10f, 10f)), Quaternion.identity);
+        }
         for(int i = enemiesSpawned; i < enemiesSpawned + waveSizes[wave]; i++){
             Instantiate(enemies[i], new Vector3(Random.Range(-10f, 10f), 5, Random.Range(-10f, 10f)), Quaternion.identity);
         }
@@ -31,7 +35,7 @@ public class SpawnManager : MonoBehaviour
     void Update()
     {
         int enemyCount = FindObjectsOfType<EnemyMove>().Length;
-        if(enemyCount == 0){
+        if(enemyCount == 0 && wave < 6){
            SpawnWave();
         }
     }
